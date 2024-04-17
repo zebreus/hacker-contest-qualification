@@ -106,6 +106,36 @@ The server itself has the IP address `192.168.0.1``. The consultant used the use
 
 ==== Hypotheses
 
+=== Acquired data
+
+.Compromised server disk image
+[cols="1,1"]
+|===
+|Attribute |Detailed Information
+
+|Filename
+|HDD.raw
+
+|sha256sum
+|9ad970f9df238dc266f58f17689d4049ab40e5c10296a3ff0620ba95612f166c
+
+|Size (bytes)
+|1.00 GiB (1,073,741,824 bytes)
+
+|Date of acquisition
+|Unknown
+
+|Aquired by
+|Customer
+
+|Description
+|The disk image was created by the customer and handed over to the investigator
+|=== 
+
+=== Suspect information
+
+
+
 ==== Domain terms
 
 List term in the domain. We need define domain related terms, e.g., terms used when we
