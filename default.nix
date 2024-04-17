@@ -17,6 +17,8 @@ stdenv.mkDerivation rec {
     nixpkgs-fmt
     nil
     jq
+    curl
+    pdfgrep
   ];
 
   buildPhase = ''

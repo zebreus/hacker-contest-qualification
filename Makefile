@@ -40,6 +40,15 @@ $(PROCESSED_CHARTS) : processed-assets/%.vl.json : assets/%.vl.json $(VEGA_DATA_
 	bash scripts/process_chart.sh $< > $@
 	touch $@
 
+exercise-data: 2024-04_Anmeldeaufgabe-hda-HackerContest-SoSe24.pdf HDD.raw
+
+2024-04_Anmeldeaufgabe-hda-HackerContest-SoSe24.pdf:
+	curl --output $@ 'https://transfer.usd.de/index.php/s/ZPS9KT2NRsk42MA/download/2024-04_Anmeldeaufgabe-hda-HackerContest-SoSe24.pdf'
+HDD.raw.gz:
+	set -x ; curl -u "GyifRtKEbB7DpSd:$$(pdfgrep -Po '(?<=Passwort: )[^\s]+' 2024-04_Anmeldeaufgabe-hda-HackerContest-SoSe24.pdf)" -H 'X-Requested-With: XMLHttpRequest' 'https://transfer.usd.de/public.php/webdav/' --output $@
+HDD.raw: HDD.raw.gz
+	gzip -d $<
+
 # data:
 # 	cd experiments && make data
 # 	make $(VEGA_DATA_FILES)
