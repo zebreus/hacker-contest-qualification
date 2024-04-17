@@ -12,7 +12,9 @@ PROCESSED_CHARTS = $(addprefix processed-assets/,$(notdir $(VEGA_CHART_FILES)))
 
 # .EXTRA_PREREQS:=Makefile
 .PHONY: all pdf preview
-all: paper.pdf
+all: HC-SoSe24_HDA_eichhorn.pdf
+HC-SoSe24_HDA_eichhorn.pdf: paper.pdf
+	cp -a $< $@
 preview: paper-preview
 
 SCSS_FILES = $(wildcard styles/*.scss) $(wildcard styles/*/*.scss) $(wildcard styles/*/*/*.scss)
