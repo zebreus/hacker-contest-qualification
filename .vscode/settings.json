@@ -1,0 +1,36 @@
+{
+    "nix.serverPath": "nil",
+    "nix.enableLanguageServer": true,
+
+    "editor.formatOnSave": true,
+    "editor.inlineSuggest.enabled": true,
+    "asciidoc.extensions.enableKroki": true,
+    "asciidoc.preview.asciidoctorAttributes": {
+        "kroki-server-url": "https://kroki.io",
+        "kroki-default-options": "none"
+    },
+
+    "[markdown][asciidoc][plaintext]": {
+        "editor.wordWrap": "on",
+        "editor.acceptSuggestionOnEnter": "off",
+        "editor.formatOnSave": true,
+        "editor.inlineSuggest.enabled": true,
+        "editor.stickyScroll.enabled": true,
+    },
+
+    "grammarly.config.documentDialect": "american",
+    "grammarly.config.documentDomain": "academic",
+    "grammarly.config.suggestions.InformalPronounsAcademic": true,
+    "grammarly.config.suggestions.OxfordComma": true,
+    "grammarly.config.suggestions.UnnecessaryEllipses": true,
+    "grammarly.config.suggestions.PunctuationWithQuotation": false,
+    // Allow the page property in CSS and SCSS
+    "css.lint.validProperties": [
+        "page"
+    ],
+    "scss.lint.validProperties": [
+        "page"
+    ],
+    //     "asciidoc.preview.scrollPreviewWithEditor": false,
+    //   "asciidoc.preview.scrollEditorWithPreview": false,
+}
