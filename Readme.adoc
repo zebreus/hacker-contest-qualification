@@ -6,7 +6,7 @@ Link to the report: link:./paper.pdf[PDF generated from this repo]
 
 === Installing dependencies
 
-After cloning this repo, you can use `nix develop` to enter a shell with all the necessary tools. You should use vscode as your editor, as that has really good support for AsciiDoc, and the settings are preconfigured in this repo. After you open this project in vscode, some extensions will be suggested to you. Install them. They add support for live preview and AsciiDoc syntax highlighting.
+After cloning this repo, you can use `nix develop` to enter a shell with all the necessary tools. This might take a while as we are building autopsy from source. You should use vscode as your editor, as that has really good support for AsciiDoc, and the settings are preconfigured in this repo. After you open this project in vscode, some extensions will be suggested to you. Install them. They add support for live preview and AsciiDoc syntax highlighting.
 
 === Fetching the exercise
 

@@ -1,5 +1,4 @@
-{ pkgs ? import <nixpkgs> { }
-}:
+{ pkgs }:
 
 with pkgs;
 stdenv.mkDerivation rec {
@@ -19,6 +18,9 @@ stdenv.mkDerivation rec {
     jq
     curl
     pdfgrep
+    # Autopsy is from nix-security and probably outdated af
+    forensics.autopsy
+    sleuthkit
   ];
 
   buildPhase = ''
