@@ -21,7 +21,15 @@ stdenv.mkDerivation rec {
     # Autopsy is from nix-security and probably outdated af
     forensics.autopsy
     sleuthkit
+    perl
+    testdisk
+    testdisk-qt
+    # Required for solr in autopsy
+    jdk19
   ];
+
+  # Required, because otherwise solr tries to write its logs to the nix store and fails
+  SOLR_LOGS_DIR = "/home/lennart/.solrlogs";
 
   buildPhase = ''
     mkdir -p styles
