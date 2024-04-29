@@ -19,13 +19,11 @@ stdenv.mkDerivation rec {
     curl
     pdfgrep
     # Autopsy is from nix-security and probably outdated af
-    forensics.autopsy
-    sleuthkit
+    autopsy
     perl
+    sleuthkit
     testdisk
-    testdisk-qt
-    # Required for solr in autopsy
-    jdk19
+    imagemagick
   ];
 
   # Required, because otherwise solr tries to write its logs to the nix store and fails

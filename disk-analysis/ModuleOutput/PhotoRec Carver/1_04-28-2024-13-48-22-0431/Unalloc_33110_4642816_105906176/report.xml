@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dfxml xmloutputversion='1.0'>
+  <metadata 
+  xmlns='http://www.forensicswiki.org/wiki/Category:Digital_Forensics_XML' 
+  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' 
+  xmlns:dc='http://purl.org/dc/elements/1.1/'>
+    <dc:type>Carve Report</dc:type>
+  </metadata>
+  <creator>
+    <package>PhotoRec</package>
+    <version>7.1</version>
+    <build_environment>
+      <compiler>GCC 13.2</compiler>
+      <library name='libext2fs' version='1.47.0'/>
+      <library name='libewf' version='20231119'/>
+      <library name='libjpeg' version='libjpeg-turbo-3.0.2'/>
+      <library name='libntfs' version='libntfs-3g'/>
+      <library name='zlib' version='1.3.1'/>
+    </build_environment>
+    <execution_environment>
+      <os_sysname>Linux</os_sysname>
+      <os_release>6.8.1</os_release>
+      <os_version>#1-NixOS SMP PREEMPT_DYNAMIC Fri Mar 15 18:19:29 UTC 2024</os_version>
+      <host>erms</host>
+      <arch>x86_64</arch>
+      <uid>1000</uid>
+      <start_time>2024-04-28T14:41:31+0200</start_time>
+    </execution_environment>
+  </creator>
+  <source>
+    <image_filename>/tmp/Autopsy/disk-analysis_20240428_134639/Temp/PhotoRec Carver/1_04-28-2024-13-48-22-0431/Unalloc_33110_4642816_105906176</image_filename>
+    <sectorsize>512</sectorsize>
+    <image_size>83481600</image_size>
+    <volume>
+      <byte_runs>
+        <byte_run offset='0' img_offset='0' len='83481600'/>
+      </byte_runs>
+    </volume>
+  </source>
+  <configuration>
+  </configuration>
+  <fileobject>
+    <filename>f0009850.elf</filename>
+    <filesize>2941952</filesize>
+    <byte_runs>
+      <byte_run offset='0' img_offset='5043200' len='2941952'/>
+    </byte_runs>
+  </fileobject>
+  <fileobject>
+    <filename>f0015596.ext</filename>
+    <filesize>2048</filesize>
+    <byte_runs>
+      <byte_run offset='0' img_offset='7985152' len='1024'/>
+    </byte_runs>
+  </fileobject>
+  <fileobject>
+    <filename>f0048364.ext</filename>
+    <filesize>2048</filesize>
+    <byte_runs>
+      <byte_run offset='0' img_offset='24762368' len='1024'/>
+    </byte_runs>
+  </fileobject>
+  <fileobject>
+    <filename>f0072940.ext</filename>
+    <filesize>2048</filesize>
+    <byte_runs>
+      <byte_run offset='0' img_offset='37345280' len='1024'/>
+    </byte_runs>
+  </fileobject>
+  <fileobject>
+    <filename>f0105708.ext</filename>
+    <filesize>2048</filesize>
+    <byte_runs>
+      <byte_run offset='0' img_offset='54122496' len='1024'/>
+    </byte_runs>
+  </fileobject>
+</dfxml>

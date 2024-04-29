@@ -18,57 +18,7 @@
         "type": "github"
       }
     },
-    "flake-utils_2": {
-      "locked": {
-        "lastModified": 1620759905,
-        "narHash": "sha256-WiyWawrgmyN0EdmiHyG2V+fqReiVi8bM9cRdMaKQOFg=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "b543720b25df6ffdfcf9227afafc5b8c1fabfae8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
-    "nix-security": {
-      "inputs": {
-        "flake-utils": "flake-utils_2",
-        "nixpkgs": "nixpkgs"
-      },
-      "locked": {
-        "lastModified": 1713392258,
-        "narHash": "sha256-f+rm8wCENnPPb0Aqae5EHy7JO29GTLmUGISM3cTisNA=",
-        "owner": "zebreus",
-        "repo": "nix-security",
-        "rev": "75a04f23674926ded498bc326dd399a7ac43f25a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "zebreus",
-        "repo": "nix-security",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
-      "locked": {
-        "lastModified": 1701282334,
-        "narHash": "sha256-MxCVrXY6v4QmfTwIysjjaX0XUhqBbxTWWB4HXtDYsdk=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "057f9aecfb71c4437d2b27d3323df7f93c010b7e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "23.11",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_2": {
       "locked": {
         "lastModified": 1686065153,
         "narHash": "sha256-0Dqszmgln0a9sNokD47eVseSaP4wQ95iISUQcsZCH+s=",
@@ -84,11 +34,27 @@
         "type": "github"
       }
     },
+    "nixpkgs-autopsy": {
+      "locked": {
+        "lastModified": 1714301684,
+        "narHash": "sha256-R86K33lIYHg1V5e5nUdl1ZMHhucd7Ww/ZBE8/Le5JSg=",
+        "owner": "zebreus",
+        "repo": "nixpkgs",
+        "rev": "feee60892b3877e4eb2cdadaf4b6f42ca444b06c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zebreus",
+        "ref": "fix-autopsy",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "nix-security": "nix-security",
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs",
+        "nixpkgs-autopsy": "nixpkgs-autopsy"
       }
     },
     "systems": {

